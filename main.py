@@ -1,15 +1,29 @@
-import pandas as pd
-from dateparser import parse
-from resources import _collect, _get
-import os
+from resources import _parse, get_period, join_class
+import tkinter as tk
+import tkinter.font as TkFont
+from tkinter import ttk
+from functools import partial
 
-if 'schedule_data' not in os.listdir():
-    os.mkdir('schedule_data/')
+class_info, period_info, block_info = _parse()
 
-for info in ['class_info','period_info','block_info']:
-    if  info not in os.listdir('schedule_data/'):
-        _collect(info)
+def button_pressed(class_info,period_info,block_info):
+    period = get_period(period_info, block_info)
+    join_class(class_info, period, label)
 
-class_info, period_info, block_info = _get()
+root = tk.Tk()
+font = TkFont.Font(family="Helvetica",size=12,weight="bold")
+root.title("Class Auto-Joiner")
+button = tk.Button(root, 
+                   text='Auto-Join Class', 
+                   font = font,
+                   width=25, 
+                   command=partial(button_pressed,class_info,period_info,block_info))
+button.pack()
 
-        
+label = tk.Label(root, fg="#2D8CFF")
+label.pack()
+
+root.mainloop()
+
+
+    
