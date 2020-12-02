@@ -47,7 +47,13 @@ def _collect(info):
         block_info()
 
 def _get():
-        return pd.read_csv('schedule_data/class_info.csv'), pd.read_csv('schedule_data/period_info.csv'), pd.read_csv('schedule_data/block_info.csv')
+    if 'schedule_data' not in os.listdir():
+        os.mkdir('schedule_data/')
+    
+    for info in ['class_info','period_info','block_info']:
+        if  info+'.csv' not in os.listdir('schedule_data/'):
+            _collect(info)
+    return pd.read_csv('schedule_data/class_info.csv'), pd.read_csv('schedule_data/period_info.csv'), pd.read_csv('schedule_data/block_info.csv')
 
 def _parse():
     class_info, period_info, block_info = _get()
@@ -72,14 +78,6 @@ def get_period(period_info, block_info):
     now = datetime.datetime.now()
     time = now.time()
     weekday = now.strftime('%A')
-    
-    if 'schedule_data' not in os.listdir():
-        os.mkdir('schedule_data/')
-    
-    for info in ['class_info','period_info','block_info']:
-        if  info+'.csv' not in os.listdir('schedule_data/'):
-            _collect(info)
-    
     
     period_list = period_info.loc[weekday,'period_list']
     period = None
