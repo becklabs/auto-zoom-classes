@@ -11,15 +11,18 @@ def button_pressed(class_info,period_info,block_info):
     join_class(class_info, period, label)
 
 root = tk.Tk()
-font = TkFont.Font(family="Helvetica",size=28,weight="bold")
-font1 = TkFont.Font(family="Helvetica",size=18)
+
+font = TkFont.Font(family="Helvetica",size=18,weight="bold")
+font1 = TkFont.Font(family="Helvetica",size=12)
+
 root.title("Class Auto-Joiner")
+
 button = tk.Button(root, 
                    text='Auto-Join Class', 
                    font = font,
                    width=15,
                    command=partial(button_pressed,class_info,period_info,block_info))
-button.pack()
+button.pack(padx=25, pady=10)
 
 label = tk.Label(root, fg="#2D8CFF",font = font1)
 label.pack()
